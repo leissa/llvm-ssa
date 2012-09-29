@@ -25,6 +25,15 @@
 #include "llvm/Support/MathExtras.h"
 using namespace llvm;
 
+/*
+ * counter initialization
+ */
+
+size_t AllocaInst::counter = 0;
+size_t LoadInst::counter = 0;
+size_t PHINode::counter = 0;
+size_t StoreInst::counter = 0;
+
 //===----------------------------------------------------------------------===//
 //                            CallSite Class
 //===----------------------------------------------------------------------===//
@@ -90,6 +99,7 @@ PHINode::PHINode(const PHINode &PN)
   std::copy(PN.op_begin(), PN.op_end(), op_begin());
   std::copy(PN.block_begin(), PN.block_end(), block_begin());
   SubclassOptionalData = PN.SubclassOptionalData;
+  ++counter;
 }
 
 PHINode::~PHINode() {
@@ -810,6 +820,7 @@ AllocaInst::AllocaInst(Type *Ty, Value *ArraySize,
   setAlignment(0);
   assert(!Ty->isVoidTy() && "Cannot allocate void!");
   setName(Name);
+  ++counter;
 }
 
 AllocaInst::AllocaInst(Type *Ty, Value *ArraySize,
@@ -819,6 +830,7 @@ AllocaInst::AllocaInst(Type *Ty, Value *ArraySize,
   setAlignment(0);
   assert(!Ty->isVoidTy() && "Cannot allocate void!");
   setName(Name);
+  ++counter;
 }
 
 AllocaInst::AllocaInst(Type *Ty, const Twine &Name,
@@ -828,6 +840,7 @@ AllocaInst::AllocaInst(Type *Ty, const Twine &Name,
   setAlignment(0);
   assert(!Ty->isVoidTy() && "Cannot allocate void!");
   setName(Name);
+  ++counter;
 }
 
 AllocaInst::AllocaInst(Type *Ty, const Twine &Name,
@@ -837,6 +850,7 @@ AllocaInst::AllocaInst(Type *Ty, const Twine &Name,
   setAlignment(0);
   assert(!Ty->isVoidTy() && "Cannot allocate void!");
   setName(Name);
+  ++counter;
 }
 
 AllocaInst::AllocaInst(Type *Ty, Value *ArraySize, unsigned Align,
@@ -846,6 +860,7 @@ AllocaInst::AllocaInst(Type *Ty, Value *ArraySize, unsigned Align,
   setAlignment(Align);
   assert(!Ty->isVoidTy() && "Cannot allocate void!");
   setName(Name);
+  ++counter;
 }
 
 AllocaInst::AllocaInst(Type *Ty, Value *ArraySize, unsigned Align,
@@ -855,6 +870,7 @@ AllocaInst::AllocaInst(Type *Ty, Value *ArraySize, unsigned Align,
   setAlignment(Align);
   assert(!Ty->isVoidTy() && "Cannot allocate void!");
   setName(Name);
+  ++counter;
 }
 
 // Out of line virtual method, so the vtable, etc has a home.
@@ -910,6 +926,7 @@ LoadInst::LoadInst(Value *Ptr, const Twine &Name, Instruction *InsertBef)
   setAtomic(NotAtomic);
   AssertOK();
   setName(Name);
+  ++counter;
 }
 
 LoadInst::LoadInst(Value *Ptr, const Twine &Name, BasicBlock *InsertAE)
@@ -920,6 +937,7 @@ LoadInst::LoadInst(Value *Ptr, const Twine &Name, BasicBlock *InsertAE)
   setAtomic(NotAtomic);
   AssertOK();
   setName(Name);
+  ++counter;
 }
 
 LoadInst::LoadInst(Value *Ptr, const Twine &Name, bool isVolatile,
@@ -931,6 +949,7 @@ LoadInst::LoadInst(Value *Ptr, const Twine &Name, bool isVolatile,
   setAtomic(NotAtomic);
   AssertOK();
   setName(Name);
+  ++counter;
 }
 
 LoadInst::LoadInst(Value *Ptr, const Twine &Name, bool isVolatile,
@@ -942,6 +961,7 @@ LoadInst::LoadInst(Value *Ptr, const Twine &Name, bool isVolatile,
   setAtomic(NotAtomic);
   AssertOK();
   setName(Name);
+  ++counter;
 }
 
 LoadInst::LoadInst(Value *Ptr, const Twine &Name, bool isVolatile, 
@@ -953,6 +973,7 @@ LoadInst::LoadInst(Value *Ptr, const Twine &Name, bool isVolatile,
   setAtomic(NotAtomic);
   AssertOK();
   setName(Name);
+  ++counter;
 }
 
 LoadInst::LoadInst(Value *Ptr, const Twine &Name, bool isVolatile, 
@@ -964,6 +985,7 @@ LoadInst::LoadInst(Value *Ptr, const Twine &Name, bool isVolatile,
   setAtomic(NotAtomic);
   AssertOK();
   setName(Name);
+  ++counter;
 }
 
 LoadInst::LoadInst(Value *Ptr, const Twine &Name, bool isVolatile, 
@@ -977,6 +999,7 @@ LoadInst::LoadInst(Value *Ptr, const Twine &Name, bool isVolatile,
   setAtomic(Order, SynchScope);
   AssertOK();
   setName(Name);
+  ++counter;
 }
 
 LoadInst::LoadInst(Value *Ptr, const Twine &Name, bool isVolatile, 
@@ -990,6 +1013,7 @@ LoadInst::LoadInst(Value *Ptr, const Twine &Name, bool isVolatile,
   setAtomic(Order, SynchScope);
   AssertOK();
   setName(Name);
+  ++counter;
 }
 
 LoadInst::LoadInst(Value *Ptr, const char *Name, Instruction *InsertBef)
@@ -1000,6 +1024,7 @@ LoadInst::LoadInst(Value *Ptr, const char *Name, Instruction *InsertBef)
   setAtomic(NotAtomic);
   AssertOK();
   if (Name && Name[0]) setName(Name);
+  ++counter;
 }
 
 LoadInst::LoadInst(Value *Ptr, const char *Name, BasicBlock *InsertAE)
@@ -1010,6 +1035,7 @@ LoadInst::LoadInst(Value *Ptr, const char *Name, BasicBlock *InsertAE)
   setAtomic(NotAtomic);
   AssertOK();
   if (Name && Name[0]) setName(Name);
+  ++counter;
 }
 
 LoadInst::LoadInst(Value *Ptr, const char *Name, bool isVolatile,
@@ -1021,6 +1047,7 @@ LoadInst::LoadInst(Value *Ptr, const char *Name, bool isVolatile,
   setAtomic(NotAtomic);
   AssertOK();
   if (Name && Name[0]) setName(Name);
+  ++counter;
 }
 
 LoadInst::LoadInst(Value *Ptr, const char *Name, bool isVolatile,
@@ -1032,6 +1059,7 @@ LoadInst::LoadInst(Value *Ptr, const char *Name, bool isVolatile,
   setAtomic(NotAtomic);
   AssertOK();
   if (Name && Name[0]) setName(Name);
+  ++counter;
 }
 
 void LoadInst::setAlignment(unsigned Align) {
@@ -1070,6 +1098,7 @@ StoreInst::StoreInst(Value *val, Value *addr, Instruction *InsertBefore)
   setAlignment(0);
   setAtomic(NotAtomic);
   AssertOK();
+  ++counter;
 }
 
 StoreInst::StoreInst(Value *val, Value *addr, BasicBlock *InsertAtEnd)
@@ -1083,6 +1112,7 @@ StoreInst::StoreInst(Value *val, Value *addr, BasicBlock *InsertAtEnd)
   setAlignment(0);
   setAtomic(NotAtomic);
   AssertOK();
+  ++counter;
 }
 
 StoreInst::StoreInst(Value *val, Value *addr, bool isVolatile,
@@ -1097,6 +1127,7 @@ StoreInst::StoreInst(Value *val, Value *addr, bool isVolatile,
   setAlignment(0);
   setAtomic(NotAtomic);
   AssertOK();
+  ++counter;
 }
 
 StoreInst::StoreInst(Value *val, Value *addr, bool isVolatile,
@@ -1111,6 +1142,7 @@ StoreInst::StoreInst(Value *val, Value *addr, bool isVolatile,
   setAlignment(Align);
   setAtomic(NotAtomic);
   AssertOK();
+  ++counter;
 }
 
 StoreInst::StoreInst(Value *val, Value *addr, bool isVolatile,
@@ -1127,6 +1159,7 @@ StoreInst::StoreInst(Value *val, Value *addr, bool isVolatile,
   setAlignment(Align);
   setAtomic(Order, SynchScope);
   AssertOK();
+  ++counter;
 }
 
 StoreInst::StoreInst(Value *val, Value *addr, bool isVolatile,
@@ -1141,6 +1174,7 @@ StoreInst::StoreInst(Value *val, Value *addr, bool isVolatile,
   setAlignment(0);
   setAtomic(NotAtomic);
   AssertOK();
+  ++counter;
 }
 
 StoreInst::StoreInst(Value *val, Value *addr, bool isVolatile,
@@ -1155,6 +1189,7 @@ StoreInst::StoreInst(Value *val, Value *addr, bool isVolatile,
   setAlignment(Align);
   setAtomic(NotAtomic);
   AssertOK();
+  ++counter;
 }
 
 StoreInst::StoreInst(Value *val, Value *addr, bool isVolatile,
@@ -1171,6 +1206,7 @@ StoreInst::StoreInst(Value *val, Value *addr, bool isVolatile,
   setAlignment(Align);
   setAtomic(Order, SynchScope);
   AssertOK();
+  ++counter;
 }
 
 void StoreInst::setAlignment(unsigned Align) {

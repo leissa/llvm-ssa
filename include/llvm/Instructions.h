@@ -58,6 +58,7 @@ class AllocaInst : public UnaryInstruction {
 protected:
   virtual AllocaInst *clone_impl() const;
 public:
+  static size_t counter;
   explicit AllocaInst(Type *Ty, Value *ArraySize = 0,
                       const Twine &Name = "", Instruction *InsertBefore = 0);
   AllocaInst(Type *Ty, Value *ArraySize,
@@ -138,6 +139,7 @@ class LoadInst : public UnaryInstruction {
 protected:
   virtual LoadInst *clone_impl() const;
 public:
+  static size_t counter;
   LoadInst(Value *Ptr, const Twine &NameStr, Instruction *InsertBefore);
   LoadInst(Value *Ptr, const Twine &NameStr, BasicBlock *InsertAtEnd);
   LoadInst(Value *Ptr, const Twine &NameStr, bool isVolatile = false,
@@ -258,6 +260,7 @@ class StoreInst : public Instruction {
 protected:
   virtual StoreInst *clone_impl() const;
 public:
+  static size_t counter;
   // allocate space for exactly two operands
   void *operator new(size_t s) {
     return User::operator new(s, 2);
@@ -1995,6 +1998,7 @@ protected:
 
   virtual PHINode *clone_impl() const;
 public:
+  static size_t counter;
   /// Constructors - NumReservedValues is a hint for the number of incoming
   /// edges that this phi node will have (use 0 if you really have no idea).
   static PHINode *Create(Type *Ty, unsigned NumReservedValues,

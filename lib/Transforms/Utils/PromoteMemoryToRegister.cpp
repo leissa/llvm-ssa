@@ -386,6 +386,13 @@ static void removeLifetimeIntrinsicUsers(AllocaInst *AI) {
 
 void PromoteMem2Reg::run() {
   Function &F = *DT.getRoot()->getParent();
+  llvm::errs() << "--------------------------------------------------------------------------------\n";
+  llvm::errs() << F.getName() << '\n';
+  llvm::errs() << "AllocaInst: " << AllocaInst::counter << '\n';
+  llvm::errs() << "LoadInst: " << AllocaInst::counter << '\n';
+  llvm::errs() << "StoreInst: " << AllocaInst::counter << '\n';
+  llvm::errs() << "PhiInst: " << AllocaInst::counter << '\n';
+  llvm::errs() << "--------------------------------------------------------------------------------\n";
 
   if (AST) PointerAllocaValues.resize(Allocas.size());
   AllocaDbgDeclares.resize(Allocas.size());

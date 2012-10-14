@@ -55,6 +55,8 @@ BasicBlock::BasicBlock(LLVMContext &C, const Twine &Name, Function *NewParent,
   }
 
   setName(Name);
+  Visited = false;
+  Mature = false;
 }
 
 
